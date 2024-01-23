@@ -4,7 +4,6 @@ from collections import OrderedDict
 
 logs_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), "logs")
 
-
 def replace_keys_in_dict(d, old_key_part, new_key_part):
     # Use OrderedDict if the original is an OrderedDict
     if isinstance(d, OrderedDict):
@@ -20,12 +19,11 @@ def replace_keys_in_dict(d, old_key_part, new_key_part):
         updated_dict[new_key] = value
     return updated_dict
 
-
 def save_final(ckpt, sr, if_f0, name, epoch, version, hps):
     try:
         pth_file = f"{name}_{epoch}e.pth"
-        pth_file_path = os.path.join("logs", pth_file)
-        pth_file_old_version_path = os.path.join("logs", f"{pth_file}_old_version.pth")
+        pth_file_path = os.path.join("logs", name, pth_file)
+        pth_file_old_version_path = os.path.join("logs", name, f"{pth_file}_old_version.pth")
 
         opt = OrderedDict(
             weight={
@@ -72,7 +70,6 @@ def save_final(ckpt, sr, if_f0, name, epoch, version, hps):
         return "Success!"
     except Exception as error:
         print(error)
-
 
 def extract_small_model(path, name, sr, if_f0, info, version):
     try:

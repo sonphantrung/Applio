@@ -28,7 +28,6 @@ subprocess.run(
     ["python", os.path.join("rvc", "lib", "tools", "prerequisites_download.py")]
 )
 
-
 # Infer
 def run_infer_script(
     f0up_key,
@@ -59,7 +58,6 @@ def run_infer_script(
     ]
     subprocess.run(command)
     return f"File {input_path} inferred successfully.", output_path
-
 
 # Batch infer
 def run_batch_infer_script(
@@ -108,7 +106,6 @@ def run_batch_infer_script(
         subprocess.run(command)
 
     return f"Files from {input_folder} inferred successfully."
-
 
 # TTS
 def run_tts_script(
@@ -173,7 +170,6 @@ def run_preprocess_script(model_name, dataset_path, sampling_rate):
     subprocess.run(command)
     return f"Model {model_name} preprocessed successfully."
 
-
 # Extract
 def run_extract_script(model_name, rvc_version, f0method, hop_length, sampling_rate):
     model_path = os.path.join(logs_path, str(model_name))
@@ -209,7 +205,6 @@ def run_extract_script(model_name, rvc_version, f0method, hop_length, sampling_r
     generate_filelist(f0method, model_path, rvc_version, sampling_rate)
     return f"Model {model_name} extracted successfully."
 
-
 # Train
 def run_train_script(
     model_name,
@@ -242,7 +237,8 @@ def run_train_script(
             pg, pd = g_pretrained_path, d_pretrained_path
     else:
         pg, pd = "", ""
-
+    
+    os.makedirs(os.path.join(logs_path, str(model_name), "weights"), exist_ok=True)
     train_script_path = os.path.join("rvc", "train", "train.py")
     command = [
         "python",
