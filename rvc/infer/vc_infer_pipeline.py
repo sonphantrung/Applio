@@ -345,7 +345,7 @@ class VC(object):
         hop_length,
         f0_file=None,
     ):
-        if file_index != "" and os.path.exists(file_index) == True and index_rate != 0:
+        if file_index != "" and os.path.exists(file_index) and index_rate != 0:
             try:
                 index = faiss.read_index(file_index)
                 big_npy = index.reconstruct_n(0, index.ntotal)
@@ -377,7 +377,7 @@ class VC(object):
         audio_pad = np.pad(audio, (self.t_pad, self.t_pad), mode="reflect")
         p_len = audio_pad.shape[0] // self.window
         inp_f0 = None
-        if hasattr(f0_file, "name") == True:
+        if hasattr(f0_file, "name"):
             try:
                 with open(f0_file.name, "r") as f:
                     lines = f.read().strip("\n").split("\n")
