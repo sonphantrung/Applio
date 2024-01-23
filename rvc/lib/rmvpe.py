@@ -314,7 +314,7 @@ class MelSpectrogram(torch.nn.Module):
                 magnitude = F.pad(magnitude, (0, 0, 0, size - resize))
             magnitude = magnitude[:, :size, :] * self.win_length / win_length_new
         mel_output = torch.matmul(self.mel_basis, magnitude)
-        if self.is_half == True:
+        if self.is_half:
             mel_output = mel_output.half()
         log_mel_spec = torch.log(torch.clamp(mel_output, min=self.clamp))
         return log_mel_spec
@@ -327,7 +327,7 @@ class RMVPE:
         ckpt = torch.load(model_path, map_location="cpu")
         model.load_state_dict(ckpt)
         model.eval()
-        if is_half == True:
+        if is_half:
             model = model.half()
         self.model = model
         self.resample_kernel = {}
@@ -362,7 +362,7 @@ class RMVPE:
         mel = self.mel_extractor(audio, center=True)
         hidden = self.mel2hidden(mel)
         hidden = hidden.squeeze(0).cpu().numpy()
-        if self.is_half == True:
+        if self.is_half:
             hidden = hidden.astype("float32")
         f0 = self.decode(hidden, thred=thred)
         return f0
