@@ -20,7 +20,7 @@ import rvc.lib.tools.gdown as gdown
 
 file_path = find_folder_parent(now_dir, "logs")
 
-zips_path = os.getcwd() + "/logs/zips"
+zips_path = f"{now_dir}/logs/zips"
 
 
 def search_pth_index(folder):
@@ -93,6 +93,8 @@ def download_from_url(url):
             os.chdir(zips_path)
             if "/blob/" in url:
                 url = url.replace("/blob/", "/resolve/")
+        
+            url = url.rstrip("?download=True")
 
             response = requests.get(url, stream=True)
             if response.status_code == 200:
@@ -130,7 +132,7 @@ def download_from_url(url):
             else:
                 os.chdir(now_dir)
                 return None
-        elif "/tree/main" in url:
+        elif "/tree/" in url:
             os.chdir(zips_path)
             response = requests.get(url)
             soup = BeautifulSoup(response.content, "html.parser")
