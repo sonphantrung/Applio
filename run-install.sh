@@ -32,6 +32,10 @@ prepare_install() {
                 exit 1
             fi
         fi
+        idx_url_flag=""
+        if command -v nvidia-smi > /dev/null 2>&1; then
+            idx_url_flag="--extra-index-url https://download.pytorch.org/whl/cu121"
+        fi
 
         $py -m venv .venv
         . .venv/bin/activate
@@ -40,9 +44,7 @@ prepare_install() {
         pip3 install --upgrade pip
         echo
         echo "Installing Applio dependencies..."
-        python -m pip install -r requirements.txt
-        python -m pip uninstall torch torchvision torchaudio -y
-        python -m pip install torch==2.0.0 torchvision==0.15.1 torchaudio==2.0.1 --index-url https://download.pytorch.org/whl/cu117
+        python -m pip install -r requirements.txt "$idx_url_flag"
         finish
     fi
 }
